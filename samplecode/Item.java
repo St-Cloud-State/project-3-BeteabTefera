@@ -1,10 +1,16 @@
 import java.io.*;
 import java.awt.*;
 public abstract class Item implements Serializable {
-  //protected static 
-  //public static void setUIContext(UIContext uiContext) {
-  //  Item.uiContext = uiContext;
-  //}
+  private boolean isSelected = false;
+
+  public boolean isSelected() {
+    return isSelected;
+  }
+
+  public void setSelected(boolean selected) {
+    isSelected = selected;
+  }
+
   public abstract boolean includes(Point point);
   protected double distance(Point point1, Point point2) {
     double xDifference = point1.getX() - point2.getX();
@@ -14,4 +20,8 @@ public abstract class Item implements Serializable {
   public  abstract void render(UIContext uiContext);
     //uiContext.draw(this);
   //}
+  public void translate(int dx, int dy) {
+    // This method should be overridden by subclasses
+    // to update their specific points
+  }
 }

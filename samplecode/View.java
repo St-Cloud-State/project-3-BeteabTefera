@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 class View extends JFrame {
   private UIContext uiContext;
   private JPanel drawingPanel;
   private JPanel buttonPanel;
   private JPanel filePanel;
+  private MoveButton moveButton;
   private JButton lineButton;
   private JButton deleteButton;
   private JButton labelButton;
@@ -19,6 +21,7 @@ class View extends JFrame {
     private String fileName;
   // other buttons to be added as needed;
   private static Model model;
+  private List<Point> temporaryPoints;
   public UIContext getUI() {
     return uiContext;
   }
@@ -47,7 +50,7 @@ class View extends JFrame {
         ((Item) enumeration.nextElement()).render(uiContext);
       }
       g.setColor(Color.RED);
-      enumeration = model.getSelectedItems();
+      enumeration = model.getSelectedItems().elements();
       while (enumeration.hasMoreElements()) {
         ((Item) enumeration.nextElement()).render(uiContext);
       }
@@ -90,6 +93,7 @@ class View extends JFrame {
     Container contentpane = getContentPane();
     contentpane.add(buttonPanel, "North");
     contentpane.add(drawingPanel);
+    moveButton = new MoveButton(this, drawingPanel, undoManager);
     lineButton= new LineButton(undoManager, this, drawingPanel);
     labelButton = new LabelButton(undoManager, this, drawingPanel);
     selectButton= new SelectButton(undoManager, this, drawingPanel);
@@ -98,6 +102,7 @@ class View extends JFrame {
     openButton= new OpenButton(undoManager, this);
     undoButton = new UndoButton(undoManager);
     redoButton = new RedoButton(undoManager);
+    buttonPanel.add(moveButton);
     buttonPanel.add(lineButton);
     buttonPanel.add(labelButton);
     buttonPanel.add(selectButton);
@@ -106,7 +111,7 @@ class View extends JFrame {
     buttonPanel.add(openButton);
     buttonPanel.add(undoButton);
     buttonPanel.add(redoButton);
-    this.setSize(600, 400);
+    this.setSize(1000, 700);
   }
   public void refresh() {
     // code to access the Model update the contents of the drawing panel.
@@ -117,5 +122,9 @@ class View extends JFrame {
     // on the figure being created. Perhaps this
     // should be in drawing panel
     return point;
+  }
+
+  public void setTemporaryPoints(List<Point> points) {
+    this.temporaryPoints = points;
   }
 }

@@ -1,11 +1,11 @@
 import java.util.*;
 class DeleteCommand extends Command {
-  private Vector itemList;
+  private Vector<Item> itemList;
   public DeleteCommand () {
-    itemList = new Vector();
-    Enumeration enumeration = model.getSelectedItems();
+    itemList = new Vector<>();
+    Enumeration<Item> enumeration = model.getSelectedItems().elements();
     while (enumeration.hasMoreElements()) {
-      Item item = (Item)(enumeration.nextElement());
+      Item item = enumeration.nextElement();
       itemList.add(item);
     }
     model.deleteSelectedItems();

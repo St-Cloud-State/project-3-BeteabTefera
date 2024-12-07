@@ -30,6 +30,7 @@ public class Model {
     if (itemList.contains(item)) {
       itemList.remove(item);
       selectedList.add(item);
+      item.setSelected(true);
       view.refresh();
     }
   }
@@ -59,8 +60,8 @@ public class Model {
   public void setChanged() {
     view.refresh();
   }
-  public Enumeration getSelectedItems() {
-    return selectedList.elements();
+  public Vector<Item> getSelectedItems() {
+    return selectedList;
   }
   // other fields, methods and classes
   public void save(String fileName) {
@@ -88,4 +89,20 @@ public class Model {
       cnfe.printStackTrace();
     }
   }
+
+  public void undoItem(Item item) {
+    // Removes the item (used for undo operation)
+    if (itemList.contains(item)) {
+      itemList.remove(item);
+      view.refresh();
+    }
+  }
+
+  public void redoItem(Item item) {
+    // Re-adds the item (used for redo operation)
+    if (!itemList.contains(item)) {
+      itemList.add(item);
+      view.refresh();
+    }
+}
 }
